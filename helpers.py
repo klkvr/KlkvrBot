@@ -55,7 +55,7 @@ def get_sunset():
 
 def start_vpn_instance():
     try:
-        ec2 = boto3.client('ec2')
+        ec2 = boto3.client('ec2', region_name='us-east-2')
         ec2.start_instances(InstanceIds=[VPN_INSTANCE_ID])
         return True
     except:
@@ -63,7 +63,7 @@ def start_vpn_instance():
 
 def stop_vpn_instance():
     try:
-        ec2 = boto3.client('ec2')
+        ec2 = boto3.client('ec2', region_name='us-east-2')
         ec2.stop_instances(InstanceIds=[VPN_INSTANCE_ID])
         return True
     except:
@@ -71,7 +71,7 @@ def stop_vpn_instance():
 
 def get_vpn_instance_state():
     try:
-        ec2 = boto3.client('ec2')
+        ec2 = boto3.client('ec2', region_name='us-east-2')
         data = ec2.describe_instances()
         for elem in data['Reservations']:
             instance = elem['Instances'][0]
