@@ -5,7 +5,7 @@ from config import *
 import time
 from datetime import datetime
 import requests
-import boto3
+import hcloud
 
 def turn_off_bulbs():
     room_bulb1.turn_off()
@@ -53,29 +53,25 @@ def get_sunset():
     sunset_time = data[0]['sunset_unix'] // 1000
     return sunset_time
 
-def start_vpn_instance():
+def start_vpn_server():
     try:
-        ec2 = boto3.client('ec2', region_name='us-east-2')
-        ec2.start_instances(InstanceIds=[VPN_INSTANCE_ID])
+        client = hcloud.Client(HETZNER_APIKEY)
+        client.servers.get_by_id(VPN_SERVER_ID).power_on()
         return True
     except:
         return False
 
-def stop_vpn_instance():
+def stop_vpn_server():
     try:
-        ec2 = boto3.client('ec2', region_name='us-east-2')
-        ec2.stop_instances(InstanceIds=[VPN_INSTANCE_ID])
+        client = hcloud.Client(HETZNER_APIKEY)
+        client.servers.get_by_id(VPN_SERVER_ID).shutdown()
         return True
     except:
         return False
 
-def get_vpn_instance_state():
+def get_vpn_server_state():
     try:
-        ec2 = boto3.client('ec2', region_name='us-east-2')
-        data = ec2.describe_instances()
-        for elem in data['Reservations']:
-            instance = elem['Instances'][0]
-            if instance['InstanceId'] == VPN_INSTANCE_ID:
-                return instance['State']['Name']
+        client = hcloud.Client(HETZNER_APIKEY)
+        return client.servers.get_by_id(VPN_SERVER_ID).status
     except:
         return False

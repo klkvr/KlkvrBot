@@ -48,9 +48,9 @@ def send_servers(user_id, message_id=-1, edit=0):
         bot.edit_message_text(chat_id=user_id, message_id=message_id, text= choose_server, reply_markup=servers_kb)
 
 def send_vpn(user_id, message_id=-1, edit=0):
-    msg = f'Статус сервера: {get_vpn_instance_state()}'
+    msg = f'Статус сервера: {get_vpn_server_state()}'
     kb = types.InlineKeyboardMarkup()
-    kb.add(*[types.InlineKeyboardButton(text='Включить', callback_data='start_vpn_instance'), types.InlineKeyboardButton(text='Выключить', callback_data='stop_vpn_instance')])
+    kb.add(*[types.InlineKeyboardButton(text='Включить', callback_data='start_vpn_server'), types.InlineKeyboardButton(text='Выключить', callback_data='stop_vpn_server')])
     if not edit:
         bot.send_message(user_id, msg, reply_markup=kb)
     else:
@@ -117,12 +117,12 @@ def inline(query):
                 bot.edit_message_text(chat_id=user_id, message_id=message_id, text=msg, reply_markup=kb, parse_mode="HTML")
             elif data == "servers":
                 send_servers(user_id, message_id, 1)
-            elif data == 'start_vpn_instance':
-                start_vpn_instance()
+            elif data == 'start_vpn_server':
+                start_vpn_server()
                 time.sleep(2)
                 send_vpn(user_id, message_id, 1)
-            elif data == 'stop_vpn_instance':
-                stop_vpn_instance()
+            elif data == 'stop_vpn_server':
+                stop_vpn_server()
                 time.sleep(2)
                 send_vpn(user_id, message_id, 1)
     except:
