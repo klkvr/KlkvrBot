@@ -10,13 +10,16 @@ import hcloud
 def turn_off_bulbs():
     room_bulb1.turn_off()
     room_bulb2.turn_off()
+    room_bulb3.turn_off()
 def turn_on_bulbs():
     room_bulb1.turn_on()
     room_bulb2.turn_on()
+    room_bulb3.turn_on()
 
 def bulbs_set_brightness(b=100):
     room_bulb1.set_brightness(b)
     room_bulb2.set_brightness(b)
+    room_bulb3.set_brightness(b)
 
 def get_normal_rgb(shit):
     binary = '{0:024b}'.format(shit)
@@ -31,11 +34,12 @@ def get_normal_rgb(shit):
 def get_room_data():
     room_bulb1_data = room_bulb1.get_properties()
     room_bulb2_data = room_bulb2.get_properties()
-    brightness = max(int(room_bulb1_data['bright']), int(room_bulb2_data['bright']))
+    room_bulb3_data = room_bulb3.get_properties()
+    brightness = max(int(room_bulb1_data['bright']), int(room_bulb2_data['bright']), int(room_bulb3_data['bright']))
     power = 'on'
-    if not room_bulb1_data['power'] == room_bulb2_data['power'] == 'off':
+    if not room_bulb1_data['power'] == room_bulb2_data['power'] == room_bulb3_data['power'] == 'off':
         bulbs_set_brightness(brightness)
-    if room_bulb1_data['power'] == room_bulb2_data['power'] == 'off':
+    if room_bulb1_data['power'] == room_bulb2_data['power'] == room_bulb3_data['power'] == 'off':
         power = 'off'
         brightness = 0
     return {'power': power, 'brightness': brightness}
