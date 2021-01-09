@@ -19,18 +19,19 @@ def lights_info(user_id, message_id, edit=0):
             color_name = color['name']
     msg = '<b>Инфа по освещению:</b>\n\n<b>Свет в комнате:</b> '
     if room_data['power'] == 'on':
-        msg += 'включен, яркость ' + str(room_data['brightness']) + '%'
+        msg += f"включен, яркость {room_data['brightness']}%, температура {room_data['color_temp']}"
     else:
         msg += 'выключен'
     msg += '\n\n<b>Светодиодная лента:</b> '
     if stripe_data['power'] == 'on':
-        msg += 'включена, яркость ' + str(stripe_data['brightness']) + '%, цвет ' + color_name
+        msg += f"включена, яркость {stripe_data['brightness']}%, цвет {color_name}"
     else:
         msg += 'выключена'
     kb = types.InlineKeyboardMarkup()
     kb.add(types.InlineKeyboardButton(text='Управление светом', callback_data='ignore'))
-    kb.add(*[types.InlineKeyboardButton(text=i['text'], callback_data=i['callback']) for i in [{'text': 'вкл', 'callback': 'turn_on_room'}, {'text': 'выкл', 'callback': 'turn_off_room'}]])
-    kb.add(*[types.InlineKeyboardButton(text=i['text'], callback_data=i['callback']) for i in [{'text': 'вкл 50%', 'callback': 'bulbs_bright:50'}, {'text': 'вкл 100%', 'callback': 'bulbs_bright:100'}]])
+    kb.add(*[types.InlineKeyboardButton(text=i[0], callback_data=i[1]) for i in [['вкл', 'turn_on_room'], ['выкл', 'turn_off_room']]])
+    kb.add(*[types.InlineKeyboardButton(text=i[0], callback_data=i[1]) for i in [['вкл 50%', 'bulbs_bright:50'], ['вкл 100%', 'bulbs_bright:100']]])
+    kb.add(*[types.InlineKeyboardButton(text=i[0], callback_data=i[1]) for i in [['ночной свет', 'bulbs_ct:1700'], ['дневной свет', 'bulbs_ct:4000']]])
     kb.add(types.InlineKeyboardButton(text='Управление лентой', callback_data='ignore'))
     kb.add(*[types.InlineKeyboardButton(text=i['text'], callback_data=i['callback']) for i in [{'text': 'вкл', 'callback': 'turn_on_stripe'}, {'text': 'выкл', 'callback': 'turn_off_stripe'}]])
     kb.add(*[types.InlineKeyboardButton(text=i['text'], callback_data=i['callback']) for i in [{'text': 'вкл 50%', 'callback': 'stripe_bright:50'}, {'text': 'вкл 100%', 'callback': 'stripe_bright:100'}]])
@@ -100,6 +101,9 @@ def inline(query):
                 lights_info(user_id, message_id, 1)
             elif 'bulbs_bright' in data:
                 bulbs_set_brightness(int(data.split(':')[1]))
+                lights_info(user_id, message_id, 1)
+            elif 'bulbs_ct:' in data:
+                bulbs_set_color_temp(int(data.split(':')[1]))
                 lights_info(user_id, message_id, 1)
             elif 'stripe_bright' in data:
                 room_stripe.set_brightness(int(data.split(':')[1]))

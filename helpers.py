@@ -21,6 +21,11 @@ def bulbs_set_brightness(b=100):
     room_bulb2.set_brightness(b)
     room_bulb3.set_brightness(b)
 
+def bulbs_set_color_temp(b=4500):
+    room_bulb1.set_color_temp(b)
+    room_bulb2.set_color_temp(b)
+    room_bulb3.set_color_temp(b)
+
 def get_normal_rgb(shit):
     binary = '{0:024b}'.format(shit)
     binr = binary[:8]
@@ -36,13 +41,14 @@ def get_room_data():
     room_bulb2_data = room_bulb2.get_properties()
     room_bulb3_data = room_bulb3.get_properties()
     brightness = max(int(room_bulb1_data['bright']), int(room_bulb2_data['bright']), int(room_bulb3_data['bright']))
+    color_temp = max(int(room_bulb1_data['ct']), int(room_bulb2_data['ct']), int(room_bulb3_data['ct']))
     power = 'on'
     if not room_bulb1_data['power'] == room_bulb2_data['power'] == room_bulb3_data['power'] == 'off':
         bulbs_set_brightness(brightness)
     if room_bulb1_data['power'] == room_bulb2_data['power'] == room_bulb3_data['power'] == 'off':
         power = 'off'
         brightness = 0
-    return {'power': power, 'brightness': brightness}
+    return {'power': power, 'brightness': brightness, 'color_temp': color_temp}
 
 def get_stripe_data():
     room_stripe_data = room_stripe.get_properties()
