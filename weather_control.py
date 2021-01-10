@@ -10,7 +10,7 @@ sunset_time = get_sunset()
 current_time = int(time.time())
 current_date = datetime.fromtimestamp(current_time)
 bulbs_data = get_room_data()
-print(bulbs_data)
+
 if bulbs_data['power'] == 'on':
     if [current_date.hour, current_date.minute] == [0, 0]:
         bulbs_set_color_temp(1700)
