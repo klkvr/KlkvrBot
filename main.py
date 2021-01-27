@@ -11,7 +11,7 @@ from templates import *
 
 class ShitMiddleware(BaseMiddleware):
     def __init__(self):
-        pass
+        super(ShitMiddleware, self).__init__()
     async def on_process_message(self, message):
         print('fuck', message.message_id)
 
