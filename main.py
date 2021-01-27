@@ -4,6 +4,7 @@ os.chdir('/home/ubuntu/klkvrbot')
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils import exceptions, executor
 from aiogram.dispatcher.middlewares import BaseMiddleware
+from aiogram.dispatcher.handler import CancelHandler, current_handler
 from config import *
 from helpers import *
 from templates import *
@@ -15,6 +16,7 @@ class ShitMiddleware(BaseMiddleware):
     async def on_process_message(self, message, data):
         print(data)
         print('fuck', message.message_id)
+        raise CancelHandler()
 
 bot = Bot(BOT_HASH)
 dp = Dispatcher(bot)
