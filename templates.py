@@ -1,7 +1,7 @@
 import os
 os.chdir('/home/ubuntu/klkvrbot')
 
-from telebot import types
+from aiogram import types
 from config import *
 MAIN_BUTTONS = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
 MAIN_BUTTONS.add(*['Освещение', 'Сервера', 'VPN'])
