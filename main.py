@@ -3,14 +3,20 @@ os.chdir('/home/ubuntu/klkvrbot')
 
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils import exceptions, executor
+from aiogram.dispatcher.middlewares import BaseMiddleware
 from config import *
 from helpers import *
 from templates import *
 
 
+class ShitMiddleware(BaseMiddleware):
+    def __init__(self):
+        pass
+    async def on_process_message(self, message):
+        print('fuck', message.message_id)
+
 bot = Bot(BOT_HASH)
 dp = Dispatcher(bot)
-
 async def lights_info(user_id, message_id, edit=0):
     room_data = get_room_data()
     stripe_data = get_stripe_data()
@@ -147,4 +153,5 @@ async def off(message):
         turn_off_bulbs()
 
 if __name__ == '__main__':
+    dp.middleware.setup(ShitMiddleware())
     executor.start_polling(dp, skip_updates=False)
