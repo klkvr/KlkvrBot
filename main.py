@@ -60,12 +60,12 @@ async def send_vpn(user_id, message_id=-1, edit=0):
 
 
 @bot.message_handler(commands=['start'])
-def start(message):
+async def start(message):
     user_id = message.chat.id 
     await bot.send_message(user_id, 'че тут писать', reply_markup=MAIN_BUTTONS)
 
 @bot.message_handler(content_types=['text'])
-def text(message):
+async def text(message):
     try:
         user_id = message.chat.id
         if user_id in ADMINS:
