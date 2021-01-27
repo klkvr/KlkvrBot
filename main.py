@@ -59,12 +59,12 @@ async def send_vpn(user_id, message_id=-1, edit=0):
         await bot.edit_message_text(chat_id=user_id, message_id=message_id, text=msg, reply_markup=kb)
 
 
-@bot.message_handler(commands=['start'])
+@dp.message_handler(commands=['start'])
 async def start(message):
     user_id = message.chat.id 
     await bot.send_message(user_id, 'че тут писать', reply_markup=MAIN_BUTTONS)
 
-@bot.message_handler(content_types=['text'])
+@dp.message_handler(content_types=['text'])
 async def text(message):
     try:
         user_id = message.chat.id
