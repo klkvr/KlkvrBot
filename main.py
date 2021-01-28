@@ -15,9 +15,8 @@ class ShitMiddleware(BaseMiddleware):
         super(ShitMiddleware, self).__init__()
     async def on_process_message(self, message, data):
         handler = current_handler.get()
-        print(data)
-        print('fuck', message.message_id)
-        data["fuck"] = message.from_user.id
+        print('new_message', message.message_id)
+        data["test_user"] = message.from_user.id
         await handler(message, data)
 
 
@@ -79,7 +78,7 @@ async def start(message):
 @dp.message_handler(content_types=['text'])
 async def text(message: types.Message, data):
     try:
-        print(message)
+        print(data)
         user_id = message.chat.id
         if user_id in ADMINS:
             message_id = message.message_id
