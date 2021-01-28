@@ -13,11 +13,14 @@ from templates import *
 class ShitMiddleware(BaseMiddleware):
     def __init__(self):
         super(ShitMiddleware, self).__init__()
-    async def on_process_message(self, handler, message, data):
-        print(data)
-        print('fuck', message.message_id)
-        data["fuck"] = message.from_user.id
-        await handler(message, data)
+    async def __call__(
+        self, 
+        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
+        event: Message,
+        data: Dict[str, Any]
+    ) -> Any:
+        data['counter'] = 'aaaa'
+        return await handler(event, data)
 
 
 bot = Bot(BOT_HASH)
