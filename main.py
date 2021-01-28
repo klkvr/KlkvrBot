@@ -16,7 +16,6 @@ class ShitMiddleware(BaseMiddleware):
     async def on_process_message(self, message, data):
         print(data)
         print('fuck', message.message_id)
-        user = BotUser(message.from_user.id)
         data["fuck"] = message.from_user.id
 
 
