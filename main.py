@@ -75,7 +75,7 @@ async def start(message):
     await bot.send_message(user_id, 'че тут писать', reply_markup=MAIN_BUTTONS)
 
 @dp.message_handler(content_types=['text'])
-async def text(message: types.Message, data):
+async def text(message: types.Message, test_user):
     try:
         print(data)
         user_id = message.chat.id
