@@ -15,6 +15,7 @@ class ShitMiddleware(BaseMiddleware):
         super(ShitMiddleware, self).__init__()
     async def __call__(self, handler,event,data):
         data['counter'] = 'aaaa'
+        print(handler)
         return await handler(event, data)
 
 
