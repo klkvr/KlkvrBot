@@ -13,12 +13,7 @@ from templates import *
 class ShitMiddleware(BaseMiddleware):
     def __init__(self):
         super(ShitMiddleware, self).__init__()
-    async def __call__(
-        self, 
-        handler: Callable[[Message, Dict[str, Any]], Awaitable[Any]],
-        event: Message,
-        data: Dict[str, Any]
-    ) -> Any:
+    async def __call__(self, handler,event,data):
         data['counter'] = 'aaaa'
         return await handler(event, data)
 
