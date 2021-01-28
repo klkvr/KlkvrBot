@@ -17,7 +17,6 @@ class ShitMiddleware(BaseMiddleware):
         handler = current_handler.get()
         print('new_message', message.message_id)
         data["test_user"] = message.from_user.id
-        await handler(message, data)
 
 
 bot = Bot(BOT_HASH)
