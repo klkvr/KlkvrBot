@@ -77,7 +77,7 @@ async def start(message):
 @dp.message_handler(content_types=['text'])
 async def text(message: types.Message, test_user):
     try:
-        print(data)
+        print(test_user)
         user_id = message.chat.id
         if user_id in ADMINS:
             message_id = message.message_id
