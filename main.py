@@ -13,7 +13,7 @@ from templates import *
 class ShitMiddleware(BaseMiddleware):
     def __init__(self):
         super(ShitMiddleware, self).__init__()
-    async def on_process_message(self, handler, message, data):
+    async def on_process_message(self, message, data):
         handler = current_handler.get()
         print(data)
         print('fuck', message.message_id)
