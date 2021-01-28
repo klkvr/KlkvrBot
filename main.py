@@ -13,10 +13,11 @@ from templates import *
 class ShitMiddleware(BaseMiddleware):
     def __init__(self):
         super(ShitMiddleware, self).__init__()
-    async def __call__(self, handler, event, data):
+    async def on_process_message(self, message, data):
         print(data)
         print('fuck', message.message_id)
-        
+        user = BotUser(message.from_user.id)
+        data["fuck"] = message.from_user.id
 
 
 bot = Bot(BOT_HASH)
@@ -75,8 +76,9 @@ async def start(message):
     await bot.send_message(user_id, 'че тут писать', reply_markup=MAIN_BUTTONS)
 
 @dp.message_handler(content_types=['text'])
-async def text(message):
+async def text(message: types.Message, data):
     try:
+        print(message)
         user_id = message.chat.id
         if user_id in ADMINS:
             message_id = message.message_id
